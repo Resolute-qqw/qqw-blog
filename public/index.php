@@ -21,7 +21,7 @@ function view($file,$data=[]){
 function route(){
     $url = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '/' ;
 
-    $defaultcontroller = 'IndexController';
+    $defaultcontroller = 'BlogsController';
     $defaultaction = 'index';
     
     if($url=='/'){
