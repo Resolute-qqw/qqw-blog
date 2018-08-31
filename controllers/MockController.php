@@ -14,7 +14,7 @@ class MockController{
        for($i=0;$i<100;$i++){
             $title = $this->getChar(rand(8,20));
             $content = $this->getChar(rand(15,30));
-            $is_show = rand(0,1);
+            $is_show = rand(1,2);
             $display = rand(1,5000);
             $date = date("Y-m-d H:i:s",rand(1233333399,1535592288));
             

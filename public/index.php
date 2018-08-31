@@ -46,3 +46,16 @@ $action = $route[1];
 
 $_Con = new $controller;
 $_Con->$action();
+
+function getUrl($c=[]){
+    foreach($c as $v){
+        unset($v);
+    }
+
+    $cstr = '';
+    foreach($_GET as $k=>$v){
+        $cstr .= "$k=$v&";    
+    }
+    return $cstr;
+
+}
