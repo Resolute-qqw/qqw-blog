@@ -32,7 +32,18 @@ class Blog{
             $where .= " AND is_show =?  ";
             $value[] = $_GET['is_show'];
         }
-    
+
+        # ********排序S********** 
+        $odby = 'created_at';
+        $odway = 'desc';
+        if(isset($_GET['odby'])&&$_GET['odby']=='display'){
+            $odby = 'display';
+        }
+        if(isset($_GET['odway'])&&$_GET['odway']=='asc'){
+            $odway = 'asc';
+        }
+        # ********排序E********** 
+
         # ********翻页S**********
         $perpage=10;
         $page = isset($_GET['page']) ? max(1,(int)$_GET['page']) : 1;
@@ -53,7 +64,7 @@ class Blog{
         }
         # ********翻页E***********
     
-        $stmt = $this->pdo->prepare("SELECT * FROM blogs where $where limit $pageon,$perpage");
+        $stmt = $this->pdo->prepare("SELECT * FROM blogs where $where ORDER BY $odby $odway limit $pageon,$perpage");
         $stmt->execute($value);
         $data = $stmt->fetchall(PDO::FETCH_ASSOC);
 

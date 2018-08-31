@@ -49,7 +49,7 @@ $_Con->$action();
 
 function getUrl($c=[]){
     foreach($c as $v){
-        unset($v);
+        unset($_GET[$v]);
     }
 
     $cstr = '';
