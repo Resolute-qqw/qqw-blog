@@ -47,11 +47,11 @@
             <td>标题</td>
             <td>内容</td>
             <td>发布日期
-                <?php if($_GET['odby']=='created_at'&&$_GET['odway']=='asc'){?>
+                <!-- <?php if($_GET['odby']=='created_at'&&$_GET['odway']=='asc'){?> -->
                     <a href="?<?=getUrl(['odby','odway'])?>odby=created_at&odway=desc">➹</a>
-                <?php }else{?>
+                <!-- <?php }else{?> -->
                     <a href="?<?=getUrl(['odby','odway'])?>odby=created_at&odway=asc">➷</a>
-                <?php }?>
+                <!-- <?php }?> -->
             </td>
             <td>修改日期</td>
             <td>浏览量
