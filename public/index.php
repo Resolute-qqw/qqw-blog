@@ -14,37 +14,43 @@ function view($file,$data=[]){
         extract($data);
     }
 
-    require_once ROOT.'views/'.str_replace(".","/",$file).'.html';
+    require ROOT.'views/'.str_replace(".","/",$file).'.html';
 }
 
 // var_dump($_SERVER);
-function route(){
-    $url = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '/' ;
+// 添加路由 ：解析 URL 浏览器上 blog/index  CLI中就是 blog index
 
-    $defaultcontroller = 'BlogsController';
-    $defaultaction = 'index';
-    
-    if($url=='/'){
-       return [
-        $defaultcontroller,
-        $defaultaction
-       ];
-    }else if(strpos($url,'/',1)!==false){
-        $url = ltrim($url,'/');
-        $route = explode('/',$url);
-        $route[0] = ucfirst($route[0]).'Controller';
-        return $route;
-    }else{
-        die("请求格式不正确");
-    }
-
+if(php_sapi_name() == 'cli')
+{
+    $controller = ucfirst($argv[1]) . 'Controller';
+    $action = $argv[2];
 }
-$route = route();
+else
+{
+    if( isset($_SERVER['PATH_INFO']) )
+    {
+        $pathInfo = $_SERVER['PATH_INFO'];
+        // 根据 / 转成数组
+        $pathInfo = explode('/', $pathInfo);
 
-$controller = "controllers\\{$route[0]}";
-$action = $route[1];
+        // 得到控制器名和方法名 ：
+        $controller = ucfirst($pathInfo[1]) . 'Controller';
+        $action = $pathInfo[2];
+    }
+    else
+    {
+        // 默认控制器和方法
+        $controller = 'IndexController';
+        $action = 'index';
+    }
+}
 
-$_Con = new $controller;
+
+// 为控制器添加命名空间
+$fullController = 'controllers\\'.$controller;
+
+
+$_Con = new $fullController;
 $_Con->$action();
 
 function getUrl($c=[]){

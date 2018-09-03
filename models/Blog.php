@@ -73,5 +73,23 @@ class Blog{
             'pagebtns'=>$pagebtns
         ];
     }
+
+    function content_to_html(){
+        $stmt = $this->pdo->query('SELECT * FROM blogs');
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        ob_start();
+
+        foreach($data as $v){
+            view('blogs.content',[
+                'blog'=>$v
+            ]);
+
+            $str = ob_get_contents();
+            
+            file_put_contents(ROOT.'public/contents/'.$v['id'].'.html',$str);
+            ob_clean();
+        }
+    }
 } 
     
