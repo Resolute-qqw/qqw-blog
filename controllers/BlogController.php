@@ -17,4 +17,14 @@ class BlogController{
         $blogs = new Blog;
         $blogs->content_to_html();
     }
+
+    function display(){
+        $id = (int)$_GET['id']; 
+        $blogs = new Blog;
+        echo $blogs->getDisplay($id);
+    }
+    function updisplay(){
+        $blogs = new Blog;
+        $blogs->updisplay();
+    }
 }

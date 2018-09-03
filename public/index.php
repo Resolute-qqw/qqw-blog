@@ -1,6 +1,6 @@
 <?php
 define("ROOT",dirname(__FILE__)."/../");   #配置常量为根目录地址
-
+require(ROOT."vendor/autoload.php");
 #*****注册自动加载类函数****** 
 function autoload($class){
     require_once ROOT . str_replace("\\","/",$class).".php";

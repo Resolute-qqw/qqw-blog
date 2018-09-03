@@ -74,6 +74,11 @@ class Blog{
         ];
     }
 
+    function indexlist(){
+        $stmt = $this->pdo->query('SELECT * FROM blogs LIMIT 15');
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $data;
+    }
     function content_to_html(){
         $stmt = $this->pdo->query('SELECT * FROM blogs');
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -89,6 +94,43 @@ class Blog{
             
             file_put_contents(ROOT.'public/contents/'.$v['id'].'.html',$str);
             ob_clean();
+        }
+    }
+
+    function getDisplay($id){
+        
+        $key = "blog-{$id}";
+        $redis = new \Predis\Client([
+            'scheme' => 'tcp',
+            'host'   => '127.0.0.1',
+            'port'   => 6379,
+        ]);
+        if($redis->hexists('blog_displays',$key)){
+            $newNum = $redis->hincrby('blog_displays',$key,1);
+            return $newNum;
+        }else{
+            
+            $stmt = $this->pdo->prepare('SELECT display FROM blogs WHERE id = ?');
+            $stmt->execute([$id]);
+            $display = $stmt->fetch(PDO::FETCH_COLUMN);
+            $display++;
+            $redis->hset('blog_displays',$key,$display);
+            return $display;
+        }
+
+    }
+    function updisplay(){
+        $redis = new \Predis\Client([
+            'scheme' => 'tcp',
+            'host'   => '127.0.0.1',
+            'port'   => 6379,
+        ]);
+        $data = $redis->hgetall('blog_displays');
+        foreach($data as $k=>$v){
+            $id = str_replace("blog-","",$k);
+            $diaplay = $v;
+            $sql = "UPDATE blogs SET diaplay={$v} where id={$id}";
+            $this->pdo->exec($sql);
         }
     }
 } 
