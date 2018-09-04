@@ -7,8 +7,24 @@
     <title>Document</title>
 </head>
 <body>
-    <h3>级呈讽物般悸艇晦帘愤</h3>
-    <p>4392</p>
-    <p>括狠盲苏蓉熄换锚膏柿渡老鲜啦温山时须甜罗掇掸环闯醒副搔京托</p>
+    <h3>勒祁坪嗅肺旱使扔搞诲仙</h3>
+    <p id="display"></p>
+    <p>备捅柬蚀石酒场砂菜标皮钱戎痕财棺微凳券词扩赦愁村步姥锈匠耪龄</p>
 </body>
 </html>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous">
+</script>
+<script>
+    var id = "54";
+    var url = "/blog/display?id="+id;
+    $.ajax({
+        type:"GET",
+        url:url,
+        success:function(data){
+            $("#display").html(data);
+        }
+    })
+</script>

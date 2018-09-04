@@ -7,8 +7,24 @@
     <title>Document</title>
 </head>
 <body>
-    <h3>扮跨放吮激扭独骋夕伦拢界施汰</h3>
-    <p>253</p>
-    <p>界谋悼肮采瓢撑颈煎很皖恃撤结扭苗宋挟边粒峭蛋砍蟹</p>
+    <h3>掏锣上鳖鸡篱欢膏篱肩传刊庞捻品令炯</h3>
+    <p id="display"></p>
+    <p>赋廊好跨泄归垛长妹班瓜错觅胚份碉贬妇粱蹲喂白秋勘</p>
 </body>
 </html>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous">
+</script>
+<script>
+    var id = "92";
+    var url = "/blog/display?id="+id;
+    $.ajax({
+        type:"GET",
+        url:url,
+        success:function(data){
+            $("#display").html(data);
+        }
+    })
+</script>

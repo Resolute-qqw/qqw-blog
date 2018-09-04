@@ -7,8 +7,24 @@
     <title>Document</title>
 </head>
 <body>
-    <h3>砷澜透廷郡就鸵捂超烷府筏顺澳拿辅弛鳞琶层</h3>
-    <p>3231</p>
-    <p>俱穆乐薄玻功惜脑钡可哆式遂茹奈葛板泉透本廷</p>
+    <h3>屋赂贩珊秤碑房疮矾氓芒犁良寸褥啊旧屋毯臂</h3>
+    <p id="display"></p>
+    <p>臼伶拾尼豆钮诺犀淬缎芭染冲琴插畔仕脖</p>
 </body>
 </html>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous">
+</script>
+<script>
+    var id = "7";
+    var url = "/blog/display?id="+id;
+    $.ajax({
+        type:"GET",
+        url:url,
+        success:function(data){
+            $("#display").html(data);
+        }
+    })
+</script>

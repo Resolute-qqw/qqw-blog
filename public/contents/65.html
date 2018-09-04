@@ -7,8 +7,24 @@
     <title>Document</title>
 </head>
 <body>
-    <h3>娇九嘘拳捷搁痢羞汉锚绊帅稠擂吾册境茫荷标</h3>
-    <p>1062</p>
-    <p>巢霞五撩行剖筏史胯售徊适旅镐都露帘技透酷掳梯绩堪市教</p>
+    <h3>饱换鞭己鸥泡盾两惶惋芦聪</h3>
+    <p id="display"></p>
+    <p>曙唇藉河媚哦弄倒扦盟兑就盎亭偏悔喷乃你鹅匡救垃</p>
 </body>
 </html>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous">
+</script>
+<script>
+    var id = "65";
+    var url = "/blog/display?id="+id;
+    $.ajax({
+        type:"GET",
+        url:url,
+        success:function(data){
+            $("#display").html(data);
+        }
+    })
+</script>

@@ -7,8 +7,24 @@
     <title>Document</title>
 </head>
 <body>
-    <h3>碱虾逗食旦臼贪笑徽缔</h3>
-    <p>1956</p>
-    <p>溯户级醇遁蔚下奇嘛瞧肋拓慰协吼渡揉旱阶无萍</p>
+    <h3>艾郸米馈恋伴乖浓虹侍毯领奴刑梅镭唯</h3>
+    <p id="display"></p>
+    <p>窗遁轮碱齿祁眉半表鄙郴既米喇贿扳哼恍敢剿圣蟹敢蒲僧袱</p>
 </body>
 </html>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous">
+</script>
+<script>
+    var id = "62";
+    var url = "/blog/display?id="+id;
+    $.ajax({
+        type:"GET",
+        url:url,
+        success:function(data){
+            $("#display").html(data);
+        }
+    })
+</script>

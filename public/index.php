@@ -8,7 +8,13 @@ function autoload($class){
 }
 spl_autoload_register('autoload');
 #*****END****** 
-
+function config($name){
+    static $config=null;
+    if($config===null){
+        $config = require ROOT.'config.php';
+    }
+    return $config[$name];
+}
 function view($file,$data=[]){
     if($data){
         extract($data);

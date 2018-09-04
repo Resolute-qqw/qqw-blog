@@ -7,8 +7,24 @@
     <title>Document</title>
 </head>
 <body>
-    <h3>叛诉藤哨夺独权捅爸棺寄</h3>
-    <p>4306</p>
-    <p>逃筒教平令靠逻笺褥拨雌傅叫狄省炔牵刀熄匡惟硼疾烧簇喇溶程酬</p>
+    <h3>纯希摧署宿泵旗侩梧龄管叉挺仟贸玫净枯纷芥</h3>
+    <p id="display"></p>
+    <p>尝弦纪必竟嚼商夸驾柏铜瑰弛食淘掂形啡糙犬习蓖菏吨缉</p>
 </body>
 </html>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous">
+</script>
+<script>
+    var id = "17";
+    var url = "/blog/display?id="+id;
+    $.ajax({
+        type:"GET",
+        url:url,
+        success:function(data){
+            $("#display").html(data);
+        }
+    })
+</script>

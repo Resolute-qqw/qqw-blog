@@ -2,13 +2,7 @@
 namespace models;
 use PDO;
 
-class Blog{
-    
-    public $pdo;
-    function __construct(){
-        $this->pdo = new PDO("mysql:host=localhost;dbname=threelianxi",'root','142560');
-        $this->pdo->exec('set names utf8');
-    }
+class Blog extends Base{
 
     function blogslist(){
         $where = 1;
@@ -49,7 +43,7 @@ class Blog{
         $page = isset($_GET['page']) ? max(1,(int)$_GET['page']) : 1;
         $pageon = ($page-1)*$perpage;
     
-        $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM blogs where $where");
+        $stmt = self::$pdo->prepare("SELECT COUNT(*) FROM blogs where $where");
         $stmt->execute($value);
         $count = $stmt->fetch(PDO::FETCH_COLUMN);
     
@@ -64,7 +58,7 @@ class Blog{
         }
         # ********翻页E***********
     
-        $stmt = $this->pdo->prepare("SELECT * FROM blogs where $where ORDER BY $odby $odway limit $pageon,$perpage");
+        $stmt = self::$pdo->prepare("SELECT * FROM blogs where $where ORDER BY $odby $odway limit $pageon,$perpage");
         $stmt->execute($value);
         $data = $stmt->fetchall(PDO::FETCH_ASSOC);
 
@@ -75,12 +69,12 @@ class Blog{
     }
 
     function indexlist(){
-        $stmt = $this->pdo->query('SELECT * FROM blogs LIMIT 15');
+        $stmt = self::$pdo->query('SELECT * FROM blogs LIMIT 15');
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $data;
     }
     function content_to_html(){
-        $stmt = $this->pdo->query('SELECT * FROM blogs');
+        $stmt = self::$pdo->query('SELECT * FROM blogs');
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         ob_start();
@@ -100,17 +94,13 @@ class Blog{
     function getDisplay($id){
         
         $key = "blog-{$id}";
-        $redis = new \Predis\Client([
-            'scheme' => 'tcp',
-            'host'   => '127.0.0.1',
-            'port'   => 6379,
-        ]);
+        $redis = \libs\Redis::getInstance();
         if($redis->hexists('blog_displays',$key)){
             $newNum = $redis->hincrby('blog_displays',$key,1);
             return $newNum;
         }else{
             
-            $stmt = $this->pdo->prepare('SELECT display FROM blogs WHERE id = ?');
+            $stmt = self::$pdo->prepare('SELECT display FROM blogs WHERE id = ?');
             $stmt->execute([$id]);
             $display = $stmt->fetch(PDO::FETCH_COLUMN);
             $display++;
@@ -120,18 +110,16 @@ class Blog{
 
     }
     function updisplay(){
-        $redis = new \Predis\Client([
-            'scheme' => 'tcp',
-            'host'   => '127.0.0.1',
-            'port'   => 6379,
-        ]);
+        $redis = \libs\Redis::getInstance();
         $data = $redis->hgetall('blog_displays');
+        
         foreach($data as $k=>$v){
             $id = str_replace("blog-","",$k);
-            $diaplay = $v;
-            $sql = "UPDATE blogs SET diaplay={$v} where id={$id}";
-            $this->pdo->exec($sql);
+            
+            $sql = "UPDATE blogs SET display={$v} where id={$id}";
+            self::$pdo->exec($sql);
         }
+        
     }
 } 
     

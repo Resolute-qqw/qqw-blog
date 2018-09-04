@@ -7,8 +7,24 @@
     <title>Document</title>
 </head>
 <body>
-    <h3>菜僻号贬谁录顽险挞让泞抢浆摧啡敞补逃吠</h3>
-    <p>733</p>
-    <p>探嘛韶并缮错鸡谋勾掳围朴敞扔堤蒙士汾诡贾乒烦侧硼辞</p>
+    <h3>樊盎粮匆氨赖糕介</h3>
+    <p id="display"></p>
+    <p>互搔舒孪喷髓剐傅场舷校饶黄腹布尽串醒湍耐闲</p>
 </body>
 </html>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous">
+</script>
+<script>
+    var id = "16";
+    var url = "/blog/display?id="+id;
+    $.ajax({
+        type:"GET",
+        url:url,
+        success:function(data){
+            $("#display").html(data);
+        }
+    })
+</script>

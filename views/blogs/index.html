@@ -30,6 +30,7 @@
     }
 </style>
 <body>
+    <?php view("common.head"); ?>
     <form class="cform">
         关键字 : <input type="text" name="keyword" value="<?=@$_GET['keyword']?>">
         发布日期 : 
@@ -78,5 +79,7 @@
         <?php endforeach; ?>
     </table>
     <?=$pagebtns?>
+
+    <?php view("common.footer"); ?>
 </body>
 </html>

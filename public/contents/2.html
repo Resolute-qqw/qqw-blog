@@ -7,8 +7,24 @@
     <title>Document</title>
 </head>
 <body>
-    <h3>林坷刮空纤躺闺体响儡沃窟偿狄缎</h3>
-    <p>1506</p>
-    <p>献撮乌跨撤据楷菏悄喇街捍衔办歌画焦午茅汀艇胁</p>
+    <h3>纪磐扒鸵据功陷漂投革饺冕龚杰假侮模</h3>
+    <p id="display"></p>
+    <p>丹厂骄匣乖对始递馆稳码炼刑罐度乒宏穗谱村肝</p>
 </body>
 </html>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous">
+</script>
+<script>
+    var id = "2";
+    var url = "/blog/display?id="+id;
+    $.ajax({
+        type:"GET",
+        url:url,
+        success:function(data){
+            $("#display").html(data);
+        }
+    })
+</script>

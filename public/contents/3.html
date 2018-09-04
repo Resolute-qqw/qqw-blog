@@ -7,8 +7,24 @@
     <title>Document</title>
 </head>
 <body>
-    <h3>并伍溪琴村逆柯涎蓝稼浪令顽管触痪枪狈敬陇</h3>
-    <p>4084</p>
-    <p>窝乱鳖沤昧甘话本间耻椽汉葡插拒普</p>
+    <h3>独搏句材太辞帽袖级烽踢趟驶波妈</h3>
+    <p id="display"></p>
+    <p>避吩得诬烘功撕拒俱跑劣砰唾伸桥苫苔修叹鲸趁悔仁餐灌颂师焦</p>
 </body>
 </html>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous">
+</script>
+<script>
+    var id = "3";
+    var url = "/blog/display?id="+id;
+    $.ajax({
+        type:"GET",
+        url:url,
+        success:function(data){
+            $("#display").html(data);
+        }
+    })
+</script>

@@ -7,8 +7,24 @@
     <title>Document</title>
 </head>
 <body>
-    <h3>陵投矗千黎但叙吠籍杆投</h3>
-    <p>893</p>
-    <p>胯佰妒潭尸附挟冉矛晃判淡临才矢懒示夏衫妥璃秆矛</p>
+    <h3>焙矛骑疵仁迹辱同汞宏放</h3>
+    <p id="display"></p>
+    <p>牛胁京丢刑抬哆败弘娟套澳缉海详促哼挂纶</p>
 </body>
 </html>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous">
+</script>
+<script>
+    var id = "30";
+    var url = "/blog/display?id="+id;
+    $.ajax({
+        type:"GET",
+        url:url,
+        success:function(data){
+            $("#display").html(data);
+        }
+    })
+</script>

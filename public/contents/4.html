@@ -7,8 +7,24 @@
     <title>Document</title>
 </head>
 <body>
-    <h3>吓休坡烹滔秀畏惰猩跺草稗赣</h3>
-    <p>1644</p>
-    <p>都竞坤貌项掣领千桅妒盟解抗份跋答侈</p>
+    <h3>骨滔熔茧室持裁半膘丧翘骨玫惜奶</h3>
+    <p id="display"></p>
+    <p>嘶诬疾抛潘拘教别缅私滇敛蜜电狗</p>
 </body>
 </html>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous">
+</script>
+<script>
+    var id = "4";
+    var url = "/blog/display?id="+id;
+    $.ajax({
+        type:"GET",
+        url:url,
+        success:function(data){
+            $("#display").html(data);
+        }
+    })
+</script>

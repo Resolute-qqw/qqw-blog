@@ -7,8 +7,24 @@
     <title>Document</title>
 </head>
 <body>
-    <h3>雄幕顷蠢哦盗材爱襄揉李我</h3>
-    <p>377</p>
-    <p>软碉奥酮损鸥酷扮沦涛蔽桂群芭冈</p>
+    <h3>幻礁泌隶突瀑沁捅绥楔般陕低</h3>
+    <p id="display"></p>
+    <p>观滩谜饭瀑翘剐姑仙距违期七亢拼片澄筹甫课栖毙昧侵</p>
 </body>
 </html>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous">
+</script>
+<script>
+    var id = "83";
+    var url = "/blog/display?id="+id;
+    $.ajax({
+        type:"GET",
+        url:url,
+        success:function(data){
+            $("#display").html(data);
+        }
+    })
+</script>

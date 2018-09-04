@@ -7,8 +7,24 @@
     <title>Document</title>
 </head>
 <body>
-    <h3>泻陕梆怪穗码剧笆屡扛邵边骏事补斑抽健额</h3>
-    <p>3405</p>
-    <p>五抛捷雄蕉另死变忱芹冻阂疙蓝诉处沪缆伤炕泪涟食噬</p>
+    <h3>脚玛箔纬修权肋磊腑擎裂昏慨郎软逝迸蔬</h3>
+    <p id="display"></p>
+    <p>撅唾炬颊牛夸镰己镜仟梅艘部外婆侈岁糖</p>
 </body>
 </html>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous">
+</script>
+<script>
+    var id = "81";
+    var url = "/blog/display?id="+id;
+    $.ajax({
+        type:"GET",
+        url:url,
+        success:function(data){
+            $("#display").html(data);
+        }
+    })
+</script>

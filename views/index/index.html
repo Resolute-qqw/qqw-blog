@@ -7,10 +7,12 @@
     <title>Document</title>
 </head>
 <body>
+    <?php view("common.head"); ?>
     <ul>
         <?php foreach($blogs as $v):?>
         <li><a href="/contents/<?= $v['id']?>.html"><?= $v['title']?></a></li>
         <?php endforeach;?>
     </ul>
+    <?php view("common.footer"); ?>
 </body>
 </html>

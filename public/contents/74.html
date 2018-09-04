@@ -7,8 +7,24 @@
     <title>Document</title>
 </head>
 <body>
-    <h3>胳姐酒恃叹薯界酞诫饥噬蕊赂链里</h3>
-    <p>1607</p>
-    <p>李董壬垒沥改券汕染狭饲尺缸米恃酪澎菜舅抱潭惯吓毯</p>
+    <h3>扭受矢浚颠良酷黑钦</h3>
+    <p id="display"></p>
+    <p>边爸围荷帝寇馈焊倒称师海拍本懦秘钢签</p>
 </body>
 </html>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous">
+</script>
+<script>
+    var id = "74";
+    var url = "/blog/display?id="+id;
+    $.ajax({
+        type:"GET",
+        url:url,
+        success:function(data){
+            $("#display").html(data);
+        }
+    })
+</script>

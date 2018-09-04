@@ -7,8 +7,24 @@
     <title>Document</title>
 </head>
 <body>
-    <h3>季崇婪次奈诧幸勾慰护秃剩卧桶卷</h3>
-    <p>2357</p>
-    <p>壕兄坦赎亭背惭界爬坎旧篱书赡郎丹畦算莲忙存室探遂复瑰</p>
+    <h3>烫疵茨泵怒靶娩瓮净尾</h3>
+    <p id="display"></p>
+    <p>钢灿韭畦期扩梯缆薯酥密改磷划戳仍宫煞伤污昏</p>
 </body>
 </html>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous">
+</script>
+<script>
+    var id = "78";
+    var url = "/blog/display?id="+id;
+    $.ajax({
+        type:"GET",
+        url:url,
+        success:function(data){
+            $("#display").html(data);
+        }
+    })
+</script>

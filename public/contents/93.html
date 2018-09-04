@@ -7,8 +7,24 @@
     <title>Document</title>
 </head>
 <body>
-    <h3>夕岸视冀皖哀俩贯篡忌俩嚷傅父聊</h3>
-    <p>1332</p>
-    <p>群咳客坡侠路胸垒焕呐妒尖顺拨搜嘲乘童皇耸刺事那窘翰</p>
+    <h3>陛孩祟辖痕藕傅噬爸弓</h3>
+    <p id="display"></p>
+    <p>搪挛铣舌翘碑甫该讹拦虾绵刃腥屡</p>
 </body>
 </html>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous">
+</script>
+<script>
+    var id = "93";
+    var url = "/blog/display?id="+id;
+    $.ajax({
+        type:"GET",
+        url:url,
+        success:function(data){
+            $("#display").html(data);
+        }
+    })
+</script>

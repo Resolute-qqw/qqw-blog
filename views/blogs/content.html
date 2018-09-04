@@ -7,8 +7,26 @@
     <title>Document</title>
 </head>
 <body>
+    <?php view("common.head"); ?>
     <h3><?=$blog['title']?></h3>
-    <p><?=$blog['display']?></p>
+    <p id="display"></p>
     <p><?=$blog['content']?></p>
+    <?php view("common.footer"); ?>
 </body>
 </html>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous">
+</script>
+<script>
+    var id = "<?=$blog['id']?>";
+    var url = "/blog/display?id="+id;
+    $.ajax({
+        type:"GET",
+        url:url,
+        success:function(data){
+            $("#display").html(data);
+        }
+    })
+</script>

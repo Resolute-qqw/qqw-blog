@@ -7,8 +7,24 @@
     <title>Document</title>
 </head>
 <body>
-    <h3>噬潭谷煤瞄背咖现饱司秘湍劣绘渭寒蛋</h3>
-    <p>2044</p>
-    <p>瓤换纹宫拉衫晴蜡土填杆泌费牟陕叼甫</p>
+    <h3>桔穗褥湿梢莱恋奇毙必拧磋品</h3>
+    <p id="display"></p>
+    <p>蔷读皆炽皮茎第缓商窝遣险投腻覆绕甫忱副偷亨画角孙烘搞</p>
 </body>
 </html>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous">
+</script>
+<script>
+    var id = "21";
+    var url = "/blog/display?id="+id;
+    $.ajax({
+        type:"GET",
+        url:url,
+        success:function(data){
+            $("#display").html(data);
+        }
+    })
+</script>
