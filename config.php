@@ -13,7 +13,7 @@ return [
         'charset'=>'utf8'
     ],
     'email'=>[
-        'mode'=>'debug', //debug nodebug
+        // 'mode'=>'xx', //debug nodebug
         'port'=>'25',
         'host'=>'smtp.126.com',
         'name'=>'qqw142560@126.com',

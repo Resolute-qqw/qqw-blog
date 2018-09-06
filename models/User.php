@@ -15,7 +15,7 @@ class User extends Base{
             'password'=>$password
         ]);
         $key = "email_user:{$code}";
-        $redis->setex($key,600,$value);
+        $redis->setex($key,5000,$value);
 
         $name = explode("@",$email);
         $from = [$email,$name[0]];

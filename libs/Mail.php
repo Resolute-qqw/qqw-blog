@@ -32,12 +32,12 @@ class Mail
                 ])   // 收件人
                 ->setBody($content, 'text/html');     // 邮件内容及邮件内容类型
         // 发送邮件
-        if($config['mode']=='debug'){
-            $info = $message->toString();
-            $log = new \libs\Log('email');
-            $log->log('邮件任务->调试模式中..');
-        }else{
+        // if($config['mode']=='debug'){
+        //     $info = $message->toString();
+        //     $log = new \libs\Log('email');
+        //     $log->log('邮件任务->调试模式中..');
+        // }else{
             $this->mailer->send($message);
-        }
+        // }
     }
 }

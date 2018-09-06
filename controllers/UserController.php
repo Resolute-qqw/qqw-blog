@@ -19,13 +19,20 @@ class UserController{
 
         $redis = \libs\Redis::getInstance();
         $key = "email_user:{$code}";
+        
         $data = $redis->get($key);
+        echo "<pre>";
+        var_dump($redis->keys('*'));
         if($data){
             $redis->del($key);
+             
+            
             $data = json_decode($data,TRUE);
+            
             $user = new \models\User;
-            $user->adduser($data['email'],$data['password']);
-            header('Location:/user/index');
+            $stmt = $user->adduser($data['email'],$data['password']);
+            
+            header('Location:/blog/index');
         }else{
             die("错误");
         }
