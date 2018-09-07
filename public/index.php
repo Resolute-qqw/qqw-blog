@@ -1,4 +1,8 @@
 <?php
+ini_set('session.save_handler', 'redis');   // 使用 redis 保存 SESSION
+ini_set('session.save_path', 'tcp://127.0.0.1:6379?database=3');  // 设置 redis 服务器的地址、端口、使用的数据库
+session_start();
+
 define("ROOT",dirname(__FILE__)."/../");   #配置常量为根目录地址
 require(ROOT."vendor/autoload.php");
 #*****注册自动加载类函数****** 
@@ -63,11 +67,38 @@ function getUrl($c=[]){
     foreach($c as $v){
         unset($_GET[$v]);
     }
-
     $cstr = '';
     foreach($_GET as $k=>$v){
         $cstr .= "$k=$v&";    
     }
     return $cstr;
+}
 
+function jump($url){
+    header('Location:'.$url);
+}
+function back(){
+    jump($_SERVER['HTTP_REFERER']);
+}
+
+function message($message,$type,$url,$time=5){
+    if($type==1){
+        echo "
+        <script>
+            alert('$message');
+            location.href='{$url}'
+        </script>";
+    }
+    else if($type==2){
+        view("common.success",[
+            'message'=>$message,
+            'url'=>$url,
+            'time'=>$time
+        ]);
+    }
+    else if($type==3){
+        $_SESSION['_message_']=$message;
+        jump($url);
+    }
+   
 }

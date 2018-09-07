@@ -4,7 +4,7 @@ use PDO;
 
 class MockController{
 
-    function index(){
+    function blogs(){
         
         $pdo = new PDO("mysql:host=localhost;dbname=threelianxi",'root','142560');
         $pdo->exec('set names utf8');
@@ -17,8 +17,22 @@ class MockController{
             $is_show = rand(1,2);
             $display = rand(1,5000);
             $date = date("Y-m-d H:i:s",rand(1233333399,1535592288));
+            $user_id = rand(1,10);
+            $pdo->exec("INSERT INTO blogs (title,content,is_show,display,created_at,updated_at,user_id) VALUES('$title','$content','$is_show','$display','$date','$date','$user_id')");
             
-            $pdo->exec("INSERT INTO blogs (title,content,is_show,display,created_at,updated_at) VALUES('$title','$content','$is_show','$display','$date','$date')");
+        }
+    }
+    function users(){
+        $pdo = new PDO("mysql:host=localhost;dbname=threelianxi",'root','142560');
+        $pdo->exec('set names utf8');
+
+        $pdo->exec('TRUNCATE users');
+
+        for($i=0;$i<5;$i++){
+            $email = rand(10000,999999999)."@qq.com";
+            $password = md5('142560');
+            
+            $pdo->exec("INSERT INTO users (email,password) VALUES('$email','$password')");
             
         }
     }

@@ -25,14 +25,28 @@ class User extends Base{
             'content' => "点击激活VIP账号特权 ==> ：<br> <a href='http://localhost:9999/user/active?code={$code}'>http://localhost:9999/user/active?code={$code}</a>。",
             'from' => $from,
         ];
-
         
         $message = json_encode($message);
-
 
         $redis->lpush('email',$message);
 
         echo '邮件已发送至邮箱,请前往激活后登陆~';
+    }
+
+    function tologin($user,$pwd){
+        $stmt = self::$pdo->prepare("SELECT * FROM users WHERE email=? AND password=?");
+        $stmt->execute([
+            $user,
+            $pwd
+            ]);
+        $state = $stmt->fetch();
+        if($state){
+            $_SESSION['id']=$state['id'];
+            $_SESSION['email']=$state['email'];
+            return TRUE;
+        }else{
+            return FALSE;
+        }
     }
 
 }

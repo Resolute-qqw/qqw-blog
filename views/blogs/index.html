@@ -48,16 +48,13 @@
             <td>标题</td>
             <td>内容</td>
             <td>发布日期
-                <!-- <?php if($_GET['odby']=='created_at'&&$_GET['odway']=='asc'){?> -->
-                    <a href="?<?=getUrl(['odby','odway'])?>odby=created_at&odway=desc">➹</a>
-                <!-- <?php }else{?> -->
-                    <a href="?<?=getUrl(['odby','odway'])?>odby=created_at&odway=asc">➷</a>
-                <!-- <?php }?> -->
+                <a href="?<?=getUrl(['odby','odway'])?>odby=created_at&odway=desc">➹</a>
+                <a href="?<?=getUrl(['odby','odway'])?>odby=created_at&odway=asc">➷</a>
             </td>
             <td>修改日期</td>
             <td>浏览量
-                    <a href="?<?=getUrl(['odby','odway'])?>odby=display&odway=desc">➹</a>
-                    <a href="?<?=getUrl(['odby','odway'])?>odby=display&odway=asc">➷</a>
+                <a href="?<?=getUrl(['odby','odway'])?>odby=display&odway=desc">➹</a>
+                <a href="?<?=getUrl(['odby','odway'])?>odby=display&odway=asc">➷</a>
             </td>
             <td>是否显示</td>
             <td>操作</td>
@@ -72,8 +69,8 @@
                 <td><?= $v['display']?></td>
                 <td><?php if($v['is_show']=='1')echo "显示"; if($v['is_show']=='2')echo "不显示"; ?></td>
                 <td>
-                    <a href="">修改</a>
-                    <a href="">删除</a>
+                    <a href="/blog/modify?id=<?=$v['id']?>">修改</a>
+                    <a href="/blog/delete?id=<?=$v['id']?>">删除</a>
                 </td>
             </tr>
         <?php endforeach; ?>

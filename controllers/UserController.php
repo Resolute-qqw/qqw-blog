@@ -7,6 +7,9 @@ class UserController{
     function register(){
         view("user.register");
     }
+    function login(){
+        view("user.login");
+    }
     function store(){
         $email = $_POST['email'];
         $password = md5($_POST['password']);
@@ -21,8 +24,6 @@ class UserController{
         $key = "email_user:{$code}";
         
         $data = $redis->get($key);
-        echo "<pre>";
-        var_dump($redis->keys('*'));
         if($data){
             $redis->del($key);
              
@@ -32,10 +33,26 @@ class UserController{
             $user = new \models\User;
             $stmt = $user->adduser($data['email'],$data['password']);
             
-            header('Location:/blog/index');
+            jump('/blog/index');
         }else{
             die("错误");
         }
+    }
+    function land(){
+        $user = $_POST['user'];
+        $pwd = md5($_POST['password']);
+        
+        $users = new User;
+        $stmt = $users->tologin($user,$pwd);
+        if($stmt){
+            message("登陆成功啦~~",3,'/blog/index');
+        }else{
+            message("登陆失败,账号或密码错误",3,'/user/login');
+        }
+    }
+    function logout(){
+        $_SESSION = [];
+        header("Location:/blog/index");
     }
 }
 

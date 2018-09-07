@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h3>消息提示</h3>
+    <p>状态 : <?= $message ?></p>
+    <p><span id="num"><?= $time?></span>秒后自动跳转</p>
+    <p><a href="<?=$url?>">点击立即跳转</a></p>
+</body>
+</html>
+<script>
+    var time = "<?=$time?>";
+    var num = document.getElementById("num");
+    var si = setInterval(function(){
+        time--;
+        if(time==0){
+            clearTimeout(si);
+            location.href= "<?=$url?>";
+        }else{
+            num.innerHTML=time;
+        }
+    },1000);
+</script>

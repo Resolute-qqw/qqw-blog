@@ -5,7 +5,14 @@ use PDO;
 class Blog extends Base{
 
     function blogslist(){
-        $where = 1;
+        
+        if(!isset($_SESSION['id'])){
+            $where = 'false';
+        }else{
+            $where = 'user_id='.$_SESSION['id'];
+        }
+        
+        
         $value = [];
     
         if(isset($_GET['keyword']) && $_GET['keyword']){
@@ -120,6 +127,50 @@ class Blog extends Base{
             self::$pdo->exec($sql);
         }
         
+    }
+
+    function add($title,$content,$is_show){
+        $stmt = self::$pdo->prepare("INSERT INTO blogs(title,content,is_show,user_id) VALUE(?,?,?,?)");
+        $res = $stmt->execute([
+            $title,
+            $content,
+            $is_show,
+            $_SESSION['id'],
+        ]);
+        if($res){
+            message("发布成功!~~",3,"/blog/index");
+        }else{
+            message("发布失败!~~",1,"/blog/create");
+        }
+
+    }
+    function del($id){
+        $stmt = self::$pdo->prepare("DELETE FROM blogs WHERE id=?");
+        $stmt->execute([$id]);
+        message("删除成功!",3,"/blog/index");
+    }
+
+    function edit($title,$content,$is_show,$id){
+        $stmt = self::$pdo->prepare("UPDATE blogs SET title=?,content=?,is_show=? WHERE id=?");
+        $res = $stmt->execute([
+            $title,
+            $content,
+            $is_show,
+            $id
+        ]);
+        if($res){
+            message("修改成功!~~",3,"/blog/index");
+        }else{
+            message("修改失败!~~",1,"/blog/create");
+        }
+    }
+
+    function find($id){
+        $stmt = self::$pdo->prepare("SELECT * FROM blogs WHERE id=?");
+        $stmt->execute([$id]);
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        return $data;
     }
 } 
     
