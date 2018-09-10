@@ -10,11 +10,12 @@
     <?php view("common.head")?>
     <h3>添加日志</h3>
     <form action="/blog/addblog" method="POST">
+        <input type="hidden" name="token" value="<?= csrf()?>">
         <div>标题 : <input type="text" name="title"></div><br>
         <div>内容 : <textarea name="content" id="content"></textarea></div><br>
         <div>是否公开 : 
-            公开 : <input type="radio" name="is_show" value="1" checked>
-            私有 : <input type="radio" name="is_show" value="2">
+            公开:<input type="radio" name="is_show" value="1" checked>
+            私有:<input type="radio" name="is_show" value="2">
         </div><br>
         <input type="submit" value="发布">
     </form>

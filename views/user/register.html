@@ -9,6 +9,7 @@
 <body>
     <?php view("common.head") ?>
     <form action="/user/store" method="POST">
+        <input type="hidden" name="token" value="<?= csrf()?>">
         <h3>注册</h3>
         邮箱 : <input type="text" name="email"><br>
         密码 : <input type="password" name="password"><br>

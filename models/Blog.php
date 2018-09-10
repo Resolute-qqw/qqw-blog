@@ -137,17 +137,17 @@ class Blog extends Base{
             $is_show,
             $_SESSION['id'],
         ]);
+       
         if($res){
-            message("发布成功!~~",3,"/blog/index");
+            return self::$pdo->lastInsertId();
         }else{
-            message("发布失败!~~",1,"/blog/create");
+            return false;
         }
-
     }
     function del($id){
-        $stmt = self::$pdo->prepare("DELETE FROM blogs WHERE id=?");
-        $stmt->execute([$id]);
-        message("删除成功!",3,"/blog/index");
+        $stmt = self::$pdo->prepare("DELETE FROM blogs WHERE id=? AND user_id=?");
+        $res = $stmt->execute([$id,$_SESSION['id']]);
+       return $res;
     }
 
     function edit($title,$content,$is_show,$id){
@@ -158,11 +158,7 @@ class Blog extends Base{
             $is_show,
             $id
         ]);
-        if($res){
-            message("修改成功!~~",3,"/blog/index");
-        }else{
-            message("修改失败!~~",1,"/blog/create");
-        }
+        return $res;
     }
 
     function find($id){
@@ -171,6 +167,20 @@ class Blog extends Base{
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
         
         return $data;
+    }
+
+    function makeHtml($id){
+        $blog = $this->find($id);
+        ob_start();
+        view("blogs.content",[
+            'blog'=>$blog,
+        ]);
+        $str = ob_get_clean();
+        file_put_contents(ROOT."public/contents/".$id.".html",$str);
+        ob_clean();
+    }
+    function deleteHtml($id){
+        @unlink(ROOT."public/contents/".$id.".html");
     }
 } 
     

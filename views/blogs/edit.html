@@ -10,12 +10,13 @@
     <?php view("common.head")?>
     <h3>修改日志</h3>
     <form action="/blog/toedit" method="POST">
+        <input type="hidden" name="token" value="<?= csrf()?>">
         <input type="hidden" name="id" value="<?= $data['id']?>">
         <div>标题 : <input type="text" name="title" value="<?= $data['title']?>"></div><br>
         <div>内容 : <textarea name="content" id="content"><?= $data['content']?></textarea></div><br>
         <div>是否公开 : 
-            公开 : <input type="radio" name="is_show" value="1" <?php if($data['is_show']==1) echo 'checked' ?> >
-            私有 : <input type="radio" name="is_show" value="2" <?php if($data['is_show']==2) echo 'checked' ?> >
+            公开:<input type="radio" name="is_show" value="1" <?php if($data['is_show']==1) echo 'checked' ?> >
+            私有:<input type="radio" name="is_show" value="2" <?php if($data['is_show']==2) echo 'checked' ?> >
         </div><br>
         <input type="submit" value="发布">
     </form>

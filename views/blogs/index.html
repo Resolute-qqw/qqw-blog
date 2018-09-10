@@ -62,15 +62,24 @@
         <?php foreach($data as $v): ?>
             <tr>
                 <td><?= $v['id']?></td>
-                <td><a href="/contents/<?= $v['id']?>.html"><?= $v['title']?></a></td>
-                <td><?= $v['content']?></td>
+                <?php if($v['is_show']==1): ?>
+                    <td><a href="/contents/<?= $v['id']?>.html"><?= filter($v['title'])?></a></td>
+                <?php else: ?>
+                    <td><a href="/blog/content?id=<?=$v['id']?>"><?= filter($v['title'])?></a></td>
+                <?php endif; ?>
+                
+                <td><?= hpf($v['content'])?></td>
                 <td><?= $v['created_at']?></td>
                 <td><?= $v['updated_at']?></td>
                 <td><?= $v['display']?></td>
                 <td><?php if($v['is_show']=='1')echo "显示"; if($v['is_show']=='2')echo "不显示"; ?></td>
                 <td>
                     <a href="/blog/modify?id=<?=$v['id']?>">修改</a>
-                    <a href="/blog/delete?id=<?=$v['id']?>">删除</a>
+                    <form action="/blog/delete" method="POST">
+                        <input type="hidden" name="token" value="<?= csrf()?>">
+                        <input type="hidden" name="id" value="<?=$v['id']?>">
+                        <input type="submit" value="删除">
+                    </form>
                 </td>
             </tr>
         <?php endforeach; ?>
