@@ -1,3 +1,4 @@
+<script src="/js/jquery.min.js"></script>
 <?php if(isset($_SESSION['_message_'])):?>
     <div id="mess"><?=$_SESSION['_message_']?></div>
 <?php unset($_SESSION['_message_']);?>
@@ -30,12 +31,34 @@
 <a href="/blog/index">日志列表</a>
 <?php if(isset($_SESSION['id'])): ?>
     <?= $_SESSION['email']?>
-    <a href="/user/logout">退出</a>
+    <span class="money">余额</span> : <span id="money"><?= $_SESSION['money']?></span>
+    <a href="/user/charge">充值~</a>
+    <a href="/user/orders">充值列表</a>
+    <a id="update-money" href="javascript:;">刷新余额</a>
     <a href="/blog/create">发布日志</a>
     <a href="/blog/updisplay">更新浏览量</a>
+    <a href="/user/logout">退出</a>
 <?php else: ?>
     <a href="/user/login">登陆</a>
     <a href="/user/register">注册</a>
 <?php endif;?>
 
 <hr>
+<style>
+    #money{
+        color: red;
+    }
+    .money{
+        color: #666;
+    }
+    a{
+        text-decoration : none;
+        color: #666;
+        border-right: 1px solid #666;
+    }
+</style>
+<script>
+    $("#update-money").click(function(){
+        $("#money").load("/user/updateMoney");
+    });
+</script>

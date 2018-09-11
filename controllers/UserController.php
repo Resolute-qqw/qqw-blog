@@ -1,6 +1,7 @@
 <?php
 namespace controllers;
 use models\User;
+use models\Order;
 
 class UserController{
 
@@ -9,6 +10,9 @@ class UserController{
     }
     function login(){
         view("user.login");
+    }
+    function charge(){
+        view("user.charge");
     }
     function store(){
         $email = $_POST['email'];
@@ -54,5 +58,25 @@ class UserController{
         $_SESSION = [];
         header("Location:/blog/index");
     }
-}
 
+    function docharge(){
+        $money = $_POST['money'];
+        
+        $order = new Order;
+        $order->create($money);
+        message("充值订单打印成功,请及时确认提交!",3,'/user/orders');
+    }
+
+    function orders(){
+        
+        $orders = new Order;
+        $data = $orders->orderslist();
+        
+        view("user.order",$data);
+    }
+
+    function updateMoney(){
+        $users = new User;
+        echo $users->upMoney();
+    }
+}

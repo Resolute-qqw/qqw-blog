@@ -11,4 +11,14 @@ class Base{
             self::$pdo->exec("set names {$config['charset']}");
         }
     }
+
+    function startTrans(){
+        self::$pdo->exec('start transaction');
+    }
+    function commit(){
+        self::$pdo->exec("commit");
+    }
+    function rollback(){
+        self::$pdo->exec("rollback");
+    }
 }

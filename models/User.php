@@ -1,5 +1,6 @@
 <?php
 namespace models;
+use PDO;
 
 class User extends Base{
     
@@ -43,10 +44,27 @@ class User extends Base{
         if($state){
             $_SESSION['id']=$state['id'];
             $_SESSION['email']=$state['email'];
+            $_SESSION['money']=$state['money'];
             return TRUE;
         }else{
             return FALSE;
         }
+    }
+
+    function addMoney($money,$user_id){
+        
+        $stmt = self::$pdo->prepare("UPDATE users SET money=money+? where id=?");
+        return $stmt->execute([
+                    $money,
+                    $user_id
+                ]);
+    }
+
+    function upMoney(){
+        $stmt = self::$pdo->query("SELECT money FROM users WHERE id={$_SESSION['id']}");
+        $money = $stmt->fetch(PDO::FETCH_COLUMN);
+        $_SESSION['money']=$money;
+        return $money;
     }
 
 }

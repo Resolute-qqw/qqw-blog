@@ -3,13 +3,13 @@ ini_set('session.save_handler', 'redis');   // 使用 redis 保存 SESSION
 ini_set('session.save_path', 'tcp://127.0.0.1:6379?database=3');  // 设置 redis 服务器的地址、端口、使用的数据库
 session_start();
 
-if($_SERVER['REQUEST_METHOD']=='POST'){
-    if(!isset($_POST['token'])){
-        die('没有令牌不能搞事~( • ̀ω•́ )✧');
-    }else if($_POST['token']!=$_SESSION['token']){
-        die('没有令牌不能搞事~( • ̀ω•́ )✧');
-    }
-}
+// if($_SERVER['REQUEST_METHOD']=='POST'){
+//     if(!isset($_POST['token'])){
+//         die('没有令牌不能搞事~( • ̀ω•́ )✧');
+//     }else if($_POST['token']!=$_SESSION['token']){
+//         die('令牌错的不能搞事~( • ̀ω•́ )✧');
+//     }
+// }
 
 define("ROOT",dirname(__FILE__)."/../");   #配置常量为根目录地址
 require(ROOT."vendor/autoload.php");

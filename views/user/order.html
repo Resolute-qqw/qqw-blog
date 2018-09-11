@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    table, th, td
+    {
+        border: 1px solid rgb(95, 226, 95);
+        border-collapse:collapse;
+    }
+    table{
+        width: 80%;
+    }
+    .active{
+        color: rgb(221, 62, 62);
+        font-size: 17px;
+        text-decoration:none;
+    }
+    .apage{
+        text-decoration:none;
+        color: rgb(139, 147, 161);
+    }
+    .cform{
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+</style>
+<body>
+<?php view("common.head"); ?>
+
+<table>
+    <tr>
+        <td>ID</td>
+        <td>订单号</td>
+        <td>金额</td>
+        <td>下单时间</td>
+        <td>支付时间</td>
+        <td>状态</td>
+        <td>操作</td>
+    </tr>
+    <?php foreach($data as $v): ?>
+        <tr>
+            <td><?= $v['id']?></td>
+            <td><?= $v['sn']?></td>
+            <td><?= $v['money']?></td>
+            <td><?= $v['created_at']?></td>
+            <td><?= $v['pay_time']?></td>
+            <td>
+                <?= $v['status']==0?'未支付':'已支付' ?>
+            </td>
+            <td>
+                <?php if($v['status']==0):?>
+                <form target="_blank"  action="/alipay/pay" method="POST">
+                    <input type="hidden" name="token" value="<?= csrf()?>">
+                    <input type="hidden" name="sn" value="<?=$v['sn']?>">
+                    <input type="submit" value="支付">
+                </form>
+                <?php else:?>
+                <form action="/alipay/refund" method="POST">
+                    <input type="hidden" name="token" value="<?= csrf()?>">
+                    <input type="hidden" name="sn" value="<?=$v['sn']?>">
+                    <input type="submit" value="我要退款">
+                </form>
+                <?php endif;?>
+                
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>
+<?=$pagebtns?>
+
+<?php view("common.footer"); ?>
+</body>
+</html>

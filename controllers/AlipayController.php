@@ -8,7 +8,7 @@ class AlipayController
     public $config = [
         'app_id' => '2016091700530951',
         // 通知地址
-        'notify_url' => 'http://requestbin.fullcontact.com/y106aty1',
+        'notify_url' => 'http://ba557691.ngrok.io/alipay/notify',
         // 跳回地址
         'return_url' => 'http://localhost:9999/alipay/return',
         // 支付宝公钥
@@ -21,15 +21,22 @@ class AlipayController
     // 发起支付
     public function pay()
     {
-        $order = [
-            'out_trade_no' => time(),    // 本地订单ID
-            'total_amount' => '648000',    // 支付金额
-            'subject' => 'test subject', // 支付标题
-        ];
+        $sn = $_POST['sn'];
+        $orders = new \models\Order;
+        
+        $data = $orders->findBysn($sn);
+        if($data['status']==0){
+            $alipay = Pay::alipay($this->config)->web([
+                'out_trade_no' => $data['sn'],    // 本地订单ID
+                'total_amount' => $data['money'],    // 支付金额
+                'subject' => '想要成为氪金王吗?', // 支付标题
+            ]);
+            $alipay->send();
 
-        $alipay = Pay::alipay($this->config)->web($order);
-
-        $alipay->send();
+        }else{
+            die("订单已经支付过了!");
+        }
+        
     }
     // 支付完成跳回
     public function return()
@@ -42,22 +49,39 @@ class AlipayController
     // 接收支付完成的通知
     public function notify()
     {
+
         $alipay = Pay::alipay($this->config);
         try{
             $data = $alipay->verify(); // 是的，验签就这么简单！
-            // 这里需要对 trade_status 进行判断及其它逻辑进行判断，在支付宝的业务通知中，只有交易通知状态为 TRADE_SUCCESS 或 TRADE_FINISHED 时，支付宝才会认定为买家付款成功。
-            // 1、商户需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号；
-            // 2、判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额）；
-            echo '订单ID：'.$data->out_trade_no ."\r\n";
-            echo '支付总金额：'.$data->total_amount ."\r\n";
-            echo '支付状态：'.$data->trade_status ."\r\n";
-            echo '商户ID：'.$data->seller_id ."\r\n";
-            echo 'app_id：'.$data->app_id ."\r\n";
+            if($data->trade_status == 'TRADE_SUCCESS' || $data->trade_status == 'TRADE_FINISHED'){
+                
+                $orders = new \models\Order;
+                $orderInfo = $orders->findBysn($data->out_trade_no);
+                if($orderInfo['status']==0){
+                    $orders->startTrans();
+                    $state1 = $orders->upOrders($data->out_trade_no);
+                }
+                $users = new \models\User;
+                $state2 = $users->addMoney($orderInfo['money'],$orderInfo['user_id']);
+                if($state1 && $state2){
+                    $orders->commit();
+                }else{
+                    $orders->rollback();
+                }
+            }
         } catch (\Exception $e) {
             echo '失败：';
             var_dump($e->getMessage()) ;
         }
         // 返回响应
         $alipay->success()->send();
+    }
+
+    public function refund()
+    {
+        $sn = $_POST['sn'];
+        
+        message("不可能!!!(ノ｀Д)ノ",1,"/user/orders");
+        
     }
 }
