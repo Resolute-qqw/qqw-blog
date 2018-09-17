@@ -5,7 +5,7 @@ use PDO;
 class Blog extends Base{
 
     function blogslist(){
-        
+
         if(!isset($_SESSION['id'])){
             $where = 'false';
         }else{

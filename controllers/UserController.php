@@ -79,4 +79,67 @@ class UserController{
         $users = new User;
         echo $users->upMoney();
     }
+    function faca(){
+        view("user.setFace");
+    }
+    function upload(){
+        
+        $upload = \libs\Upload::make();
+        $path = $upload->upload('image', 'avatar');
+
+        $user = new User;
+        $user->setface("/uploads/".$path);
+
+        @unlink(ROOT."public".$_SESSION['face']);
+
+        $_SESSION['face']="/uploads/".$path;
+        message("设置成功",3,"/blog/index");
+    }
+    function batch(){
+        view("user.batchUpload");
+    }
+    function batchUpload(){
+
+        $uploadDir = ROOT."public/uploads";
+        $data = date("Ymd");
+        if(!is_dir($uploadDir."/".$data)){
+            mkdir($uploadDir."/".$data);
+        }
+
+        foreach($_FILES['images']['name'] as $k=>$v){
+            $ext = strrchr($v,".");
+            $name = md5(time().rand(1,9999));
+            $pathEnd = $uploadDir."/".$data."/".$name.$ext;
+            
+            move_uploaded_file($_FILES['images']['tmp_name'][$k],$pathEnd);
+            
+        }
+        
+    }
+    function resource(){
+        view("user.resource");
+    }
+    function uploadbig(){
+
+        $img = $_FILES['img'];
+        $i = $_POST['i'];
+        $size = $_POST['size'];
+        $count = $_POST['count'];
+        $name = "big_".$_POST['img_name'];
+
+        move_uploaded_file($img['tmp_name'],ROOT."tmp/".$i);
+
+        $redis = \libs\Redis::getInstance();
+        $uploadedCount = $redis->incr($name);
+        
+        if($count ==$uploadedCount){
+            $fp = fopen(ROOT.'public/uploads/big/'.$name.'.png', 'a');
+            for($i=0;$i<$count;$i++){
+                fwrite($fp, file_get_contents(ROOT.'tmp/'.$i));
+                unlink(ROOT."tmp/".$i);
+            }
+            fclose($fp);
+            $redis->del($name);
+        }
+    }
 }

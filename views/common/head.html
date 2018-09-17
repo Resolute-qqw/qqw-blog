@@ -31,11 +31,18 @@
 <a href="/blog/index">日志列表</a>
 <?php if(isset($_SESSION['id'])): ?>
     <?= $_SESSION['email']?>
+    <?php if(isset($_SESSION['face'])): ?>
+        <img class="face" src="<?=$_SESSION['face']?>" alt="">
+    <?php else: ?>
+        <img class="face" src="/uploads/default.jpg" alt="">
+    <?php endif; ?>
+    <a href="/user/faca">设置头像</a>
     <span class="money">余额</span> : <span id="money"><?= $_SESSION['money']?></span>
     <a href="/user/charge">充值~</a>
     <a href="/user/orders">充值列表</a>
     <a id="update-money" href="javascript:;">刷新余额</a>
     <a href="/blog/create">发布日志</a>
+    <a href="/user/resource">资源上传</a>
     <a href="/blog/updisplay">更新浏览量</a>
     <a href="/user/logout">退出</a>
 <?php else: ?>
@@ -55,6 +62,14 @@
         text-decoration : none;
         color: #666;
         border-right: 1px solid #666;
+    }
+    .face{
+        z-index:9999;
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        vertical-align: middle;
     }
 </style>
 <script>

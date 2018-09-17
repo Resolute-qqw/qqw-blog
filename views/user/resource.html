@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h3>上传资源</h3>
+
+    <form action="/user/uploadbig" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="token" value="<?=csrf()?>"><br>
+        <input type="file" name="image" id="img"><br><br>
+        <input type="submit" value="上传"><br>
+    </form>
+</body>
+</html>
+<script src="/js/jquery.min.js"></script>
+<script>
+    var img = document.getElementById("img")
+    img.onchange = function(){
+        var img1 = this.files[0]
+        var fileSize = img1.size 
+        var preSize = 10240
+        var count = Math.ceil(fileSize/preSize)
+        var name = "img_"+Math.random(1,9999999)
+
+        for(var i=0;i<count;i++){
+            var imgs = img1.slice(i*preSize,i*preSize+preSize)
+            var f = new FormData()
+
+            f.append('img', imgs)
+            f.append('count', count)
+            f.append('i', i)
+            f.append('size', preSize)
+            f.append('img_name', name)
+            
+            $.ajax({
+                type : "POST",
+                url : "/user/uploadbig",
+                data : f,
+                contentType: false,
+                processData: false,
+                success:function(data){
+                    console.log(data)
+                }
+            });
+            
+        }
+    }
+
+</script>

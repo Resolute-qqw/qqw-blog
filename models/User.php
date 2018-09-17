@@ -45,6 +45,7 @@ class User extends Base{
             $_SESSION['id']=$state['id'];
             $_SESSION['email']=$state['email'];
             $_SESSION['money']=$state['money'];
+            $_SESSION['face']=$state['face'];
             return TRUE;
         }else{
             return FALSE;
@@ -65,6 +66,13 @@ class User extends Base{
         $money = $stmt->fetch(PDO::FETCH_COLUMN);
         $_SESSION['money']=$money;
         return $money;
+    }
+    function setface($facepath){
+        $stmt = self::$pdo->prepare("UPDATE users SET face=? where id=?");
+        return $stmt->execute([
+                    $facepath,
+                    $_SESSION['id']
+                ]);
     }
 
 }
