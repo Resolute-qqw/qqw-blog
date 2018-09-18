@@ -2,6 +2,7 @@
 namespace controllers;
 use models\User;
 use models\Order;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class UserController{
 
@@ -87,6 +88,10 @@ class UserController{
         $upload = \libs\Upload::make();
         $path = $upload->upload('image', 'avatar');
 
+        $image = Image::make(ROOT."public/uploads/".$path);
+        $image->crop((int)$_POST['w'],(int)$_POST['h'],(int)$_POST['x'],(int)$_POST['y']);
+        $image->save(ROOT."public/uploads/".$path);
+
         $user = new User;
         $user->setface("/uploads/".$path);
 
@@ -141,5 +146,11 @@ class UserController{
             fclose($fp);
             $redis->del($name);
         }
+    }
+
+    function gd(){
+        
+        $image->insert(ROOT."public/uploads/20180913/2eb751bab5cf35eeccd2f2b6f635cfc8.jpg",'centent');
+        $image->save(ROOT."public/uploads/wirte.png");
     }
 }

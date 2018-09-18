@@ -2,7 +2,7 @@
 ini_set('session.save_handler', 'redis');   // 使用 redis 保存 SESSION
 ini_set('session.save_path', 'tcp://127.0.0.1:6379?database=3');  // 设置 redis 服务器的地址、端口、使用的数据库
 session_start();
-
+date_default_timezone_set('Asia/Shanghai');
 // if($_SERVER['REQUEST_METHOD']=='POST'){
 //     if(!isset($_POST['token'])){
 //         die('没有令牌不能搞事~( • ̀ω•́ )✧');

@@ -1,18 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
-<body>
-    <h3>设置头像</h3>
+<style>
+    .img-container {
+    width: 500px;
+    height: 500px;
+    float:left;
+}
+.img-preview {
+    float: left;
+    overflow: hidden;
+    margin-left: 20px;
+}
+.preview-lg {
+    width: 240px;
+    height: 240px;
+}
+.preview-md {
+    width: 80px;
+    height: 80px;
+}
+</style>
 
+<body>
+    <?php view("common.head") ?>
     <form action="/user/upload" method="POST" enctype="multipart/form-data">
+        <!-- 显示原图 -->
+        <div class="img-container">
+            <img id="image" src="" alt="Picture">
+        </div>
+        <!-- 预览图片 -->
+        <div class="docs-preview clearfix">
+            <div class="img-preview peview-lg"></div>
+            <div class="img-preview peview-lg"></div>
+            <div class="img-preview preview-md"></div>
+        </div>
+
+        <h3>设置头像</h3>
+
+
         <input type="hidden" name="token" value="<?=csrf()?>"><br>
-        <input type="file" name="image"><br><br>
+        <input type="file" name="image" id="img"><br><br>
         <input type="submit" value="上传"><br>
+
+        <input type="text" name="x" id="x">
+        <input type="text" name="y" id="y">
+        <input type="text" name="w" id="w">
+        <input type="text" name="h" id="h">
+
     </form>
+    <?php view("common.footer") ?>
 </body>
+
 </html>
+<script src="/cropper/cropper.min.js"></script>
+<link rel="stylesheet" href="/cropper/cropper.min.css">
+<script>
+
+    var $image = $('#image')
+    var x = $("#x")
+    var y = $("#y")
+    var w = $("#w")
+    var h = $("#h")
+
+
+    $("#img").change(function () {
+        // this.files ： 当前选中的图片数组
+        // 把选中的图片转成字符串
+        var url = getObjectUrl(this.files[0])
+        // 设置到 img
+        $image.attr('src', url)
+        // 销毁
+        
+        $image.cropper("destroy")
+
+        $image.cropper({
+            aspectRatio: 1,                              // 缩略图1:1的比例
+            preview: '.img-preview',                      // 显示缩略图的框
+            viewMode: 3,                                  // 显示模式
+            // 裁切时触发事件
+            crop: function (event) {
+                x.val(event.detail.x);             // 裁切区域左上角x坐标
+                y.val(event.detail.y);             // 裁切区域左上角y坐标
+                w.val(event.detail.width);         // 裁切区域宽高
+                h.val(event.detail.height);        // 裁切区域高度
+            }
+        })
+
+    });
+
+    function getObjectUrl(file) {
+        var url = null;
+        if (window.createObjectURL != undefined) {
+            url = window.createObjectURL(file)
+        } else if (window.URL != undefined) {
+            url = window.URL.createObjectURL(file)
+        } else if (window.webkitURL != undefined) {
+            url = window.webkitURL.createObjectURL(file)
+        }
+        return url
+    }
+
+</script>
