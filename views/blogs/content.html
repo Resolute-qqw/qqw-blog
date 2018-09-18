@@ -1,47 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-</head>
-<body>
-    <h1>神马玩意ヾ(✿ﾟ▽ﾟ)ノ</h1>
-    <div id="header"></div>
+    <style>
+        p {
+            padding: 0;
+            margin: 0;
+        }
 
-    <h3><?=$blog['title']?></h3>
-    浏览量:<p id="display"></p>
-    <p><?=$blog['content']?></p>
-    <?php view("common.footer"); ?>
+        .comment {
+            position: relative;
+            border: 5px solid skyblue;
+            margin-top: 10px;
+        }
+
+        .comment .left {
+            text-align: center;
+            padding: 5px;
+            width: 15%;
+            float: left;
+            border-right: 2px solid pink;
+        }
+
+        .comment .right {
+            float: left;
+            width: 80%;
+            padding: 5px;
+        }
+
+        .comment .left img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            padding: 3px;
+            border: 1px solid slategray;
+        }
+
+        .comment .right .time {
+            color: #999;
+            font-size: 12px;
+            position: absolute;
+            bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="data">
+        <h1>神马玩意ヾ(✿ﾟ▽ﾟ)ノ</h1>
+        <div id="header"></div>
+
+        <h3>
+            <?=$blog['title']?>
+        </h3>
+        浏览量:<p id="display"></p>
+        <p>
+            <?=$blog['content']?>
+        </p>
+        点赞：<img src="/uploads/praise.jpg" width="50px" height="50px" alt="">
+        <h3>评论</h3>
+
+        <div class="comment" v-for="(v,k) in comment">
+            <div class="left">
+                <img :src="v.face" alt="">
+                <p>{{v.email}}</p>
+            </div>
+            <div class="right">
+                <p>{{v.content}}</p>
+                <p class="time">{{v.created_at}}</p>
+            </div>
+            <div style="clear:both"></div>
+        </div>
+        
+        <br>
+        <form action="">
+            <textarea v-model="content" cols="180" rows="5"></textarea><br>
+            <input type="button" @click="submit" id="comment" value="评论">
+        </form>
+        <?php view("common.footer"); ?>
+    </div>
 </body>
+
 </html>
-<script
-  src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous">
-</script>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/vue-2.5.17.js"></script>
+<script src="/js/axios.min.js"></script>
 <script>
     var id = "<?=$blog['id']?>";
-    var url = "/blog/display?id="+id;
+    var url = "/blog/display?id=" + id;
     $.ajax({
-        type:"GET",
-        url:url,
-        dataType:'JSON',
-        success:function(data){
+        type: "GET",
+        url: url,
+        dataType: 'JSON',
+        success: function (data) {
             $("#display").html(data.display);
             var html = `<a href="/">首页</a>`;
-            if(data.email==''){
+            if (data.email == '') {
                 html += `<a href="/user/login">登陆</a>
                 <a href="/user/register">注册</a>`;
-            }else{
+            } else {
                 html += `<?= $_SESSION['email']?>
                 <a href="/user/logout">退出</a>
                 <a href="/blog/create">发布日志</a>
                 <a href="/blog/updisplay">更新浏览量</a>`;
             }
-            
+
             $("#header").html(html);
         }
     })
+</script>
+<script>
+    new Vue({
+        el:"#data",
+        data:{
+            content:'',
+            blog_id:"<?=$blog['id']?>",
+            comment:[]
+        },
+        created:function(){
+            axios.get("/comment/comment_list?blog_id="+this.blog_id)
+            .then(res=>{
+                
+                this.comment = res.data.data
+            })
+        },
+        methods:{
+            submit:function(){
+                axios.post('/comment/comment',{
+                    'content':this.content,
+                    'blog_id':this.blog_id
+                })
+                .then(res=>{
+                    if(res.data.status_code=='200'){
+                        this.comment.unshift({
+                            email:res.data.data.email,
+                            face:res.data.data.avatar,
+                            created_at:res.data.data.created_at,
+                            content:res.data.data.content,
+                        })
+                        this.content = ''
+                    }else{
+                        alert(res.data.message)
+                    }
+                })
+            }
+        }
+    })
+
+
 </script>

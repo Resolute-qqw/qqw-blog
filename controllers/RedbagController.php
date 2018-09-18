@@ -1,5 +1,6 @@
 <?php
 namespace controllers;
+use \models\Redbag;
 
 class RedbagController
 {
@@ -16,13 +17,12 @@ class RedbagController
         $redbag = new \models\Redbag;
         ini_set('default_socket_timeout', -1);
 
-        echo "进程开启";
+        echo "进程开启\r\n";
 
         while(1){
             $data = $redis->brpop('redbag',0);
-
             $redbag->add($data[1]);
-            echo "添加成功!";
+            echo "添加成功!\r\n";
         }
     }
 
@@ -31,7 +31,7 @@ class RedbagController
     }
 
     function rob(){
-        
+
         if(!isset($_SESSION['id'])){
             echo json_encode([
                 'status_code'=>'401',
@@ -50,6 +50,7 @@ class RedbagController
 
         $redis = \libs\Redis::getInstance();
         $key ='redbag_'.date('Ymd');
+
         $status = $redis->sismember($key,$_SESSION['id']);
         if($status){
             echo json_encode([
@@ -69,6 +70,7 @@ class RedbagController
         }
 
         $redis->lpush("redbag",$_SESSION['id']);
+
         $redis->sadd($key,$_SESSION['id']);
         echo json_encode([
             'status_code'=>'200',
